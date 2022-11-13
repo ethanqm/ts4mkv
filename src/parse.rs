@@ -3,7 +3,7 @@ use crate::time::Timestamp;
 
 
 
-pub fn parse(line:&str) -> Chapter {
+pub fn parse_line(line:&str) -> Chapter {
 	let pair = line.split_once(' ').unwrap();
 	let ms = Timestamp::from_str(pair.0).to_ms();
 	
