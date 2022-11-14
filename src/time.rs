@@ -1,5 +1,5 @@
 pub struct Timestamp {
-	pub hours: u32,
+	pub hours:u32,
 	pub minutes:u32,
 	pub seconds:u32
 }
@@ -12,7 +12,6 @@ impl Timestamp {
 	}
 	pub fn from_str(text: &str) -> Timestamp {
 		let parts: Vec<u32> = text.split(':')
-								   .into_iter()
 								   .map(|x| x.parse::<u32>().unwrap())
 								   .collect();
 		match parts.len() {
