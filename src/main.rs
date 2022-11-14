@@ -12,12 +12,11 @@ mod parse;
 
 
 fn main() {
-    let header = ";FFMETADATA1\n";
+    let header = ";FFMETADATA1\n";//basically overrides the metadata tho
     let args: Vec<String> = env::args().collect();
     let video_path = &args[2];
 
-    let re = Regex::new(r"^.*/(.*)").unwrap();
-
+    let re = Regex::new(r"^[./]*(.*)").unwrap();
     let video_name = re.captures(video_path).expect("could not decipher video file name").get(1).unwrap().as_str();
 
 
@@ -43,8 +42,8 @@ fn main() {
     Command::new("ffmpeg").arg("-i")
                                 .arg(video_path)
                                 .arg("-i")
-                                .arg("output.txt")
-                                .arg("-map_metadata")//@TODO: make unique to avoid clash
+                                .arg("output.txt") //should maybe be unique
+                                .arg("-map_metadata")
                                 .arg("0")
                                 .arg("-codec")
                                 .arg("copy")
