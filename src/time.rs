@@ -17,7 +17,8 @@ impl Timestamp {
 		match parts.len() {
 			2 => Timestamp { hours: 0,        minutes: parts[0], seconds: parts[1] },
 			3 => Timestamp { hours: parts[0], minutes: parts[1], seconds: parts[2] },
-			_ => panic!("Unable to parse timestamp: '{}'.\n Accepting only 'mm:ss' or 'hh:mm:ss' at the beginning of a line",text)
+			_ => panic!("Unable to parse timestamp: '{}'.\n\
+                        Accepting only 'mm:ss' or 'hh:mm:ss' at the beginning of a line",text)
 		}
 	}
 }

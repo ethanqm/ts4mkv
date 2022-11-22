@@ -9,18 +9,19 @@ use regex::Regex;
 mod time;
 mod metadata;
 mod parse;
+mod cli;
 
 
 fn main() {
 	let header = ";FFMETADATA1\n";//basically overrides the metadata tho
-	let args: Vec<String> = env::args().collect();
-	let video_path = &args[2];
+	let program_settings = cli::parse_cli_args(env::args());
 
 	let re = Regex::new(r"^[./]*(.*)").unwrap();
-	let video_name = re.captures(video_path).expect("could not decipher video file name").get(1).unwrap().as_str();
+	let video_name = re.captures(&program_settings.video_filepath)
+		.expect("could not decipher video file name").get(1).unwrap().as_str();
 
-
-	let file = fs::read_to_string(&args[1]).expect("Where da timestamp file at?");
+	let file = fs::read_to_string(&program_settings.timestamp_filepath)
+		.expect("Where da timestamp file at?");
 	let mut chaps: Vec<metadata::Chapter> = file.lines()
 		.map(parse::parse_line)
 		.collect();
@@ -34,15 +35,17 @@ fn main() {
 	}
 
 	// read arg[1] and write to output.txt
-	let mut outf = File::create("output.txt").expect("failed to create output file");
-	let meta_out = format!("{}{}", header, chaps.iter().map(metadata::Chapter::output).collect::<String>());
+	let mut outf = File::create("output.txt")// should maybe be unique
+		.expect("failed to create output file");
+	let meta_out = format!("{}{}", header, 
+		chaps.iter().map(metadata::Chapter::output).collect::<String>());
 	write!(outf, "{}",meta_out).expect("failed to write to output file");
 
 	//ffmpeg extract video metadata
 	Command::new("ffmpeg").arg("-i")
-						  .arg(video_path)
+						  .arg(&program_settings.video_filepath)
 						  .arg("-i")
-						  .arg("output.txt") //should maybe be unique
+						  .arg("output.txt") 
 						  .arg("-map_metadata")
 						  .arg("0")
 						  .arg("-codec")
