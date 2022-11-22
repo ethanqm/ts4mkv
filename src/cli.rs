@@ -20,6 +20,14 @@ pub fn parse_cli_args(args: std::env::Args) -> Settings {
             Some(arg) => match arg.as_str() {
                 "-t" => out.timestamp_filepath = args_iter.next().unwrap().to_string(),
                 "-v" => out.video_filepath = args_iter.next().unwrap().to_string(),
+                "-h" => {
+                    println!("Usage:\n\
+                    \t-t\tPath to file containing timestamps and titles\n\
+                    \t\t\t'(hh:)mm:ss TITLE' on each line, hours optional\n\
+                    \t-v\tPath to video file\n\
+                    \t-h\tView help");
+                    std::process::exit(0);
+                },
                 x => panic!("Unknown cli argument: {}", x)
             },
             None => break,
