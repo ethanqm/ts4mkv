@@ -23,7 +23,7 @@ pub fn parse_cli_args(args: std::env::Args) -> Settings {
                 "-h" => {
                     println!("Usage:\n\
                     \t-t\tPath to file containing timestamps and titles\n\
-                    \t\t\t'(hh:)mm:ss TITLE' on each line, hours optional\n\
+                    \t\t\t'(hh:)mm:ss TITLE' on each line, hours optional, 0:00 required\n\
                     \t-v\tPath to video file\n\
                     \t-h\tView help");
                     std::process::exit(0);
