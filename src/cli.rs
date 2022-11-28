@@ -5,13 +5,13 @@ pub struct Settings {
 }
 
 impl Settings {
-    fn new(ts:String, vd:String) -> Self {
-        Settings { timestamp_filepath: ts, video_filepath: vd }
+    fn new(ts:&str, vd:&str) -> Self {
+        Settings { timestamp_filepath: ts.to_string(), video_filepath: vd.to_string() }
     }
 }
 
 pub fn parse_cli_args(args: std::env::Args) -> Settings {
-    let mut out = Settings::new("".to_string(),"".to_string());
+    let mut out = Settings::new("","");
     let args_vec = args.collect::<Vec<String>>();
     let mut args_iter = args_vec.iter().skip(1);
     
